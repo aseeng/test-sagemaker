@@ -249,7 +249,7 @@
      ]
     },
     "Schedule": "cron(0 0 8 ? * * *)",
-    "TargetAction": {"PauseCluster":{"ClusterIdentifier":"kpi_dataplatform_redshift_cluster"}}
+    "TargetAction": {"ResumeCluster":{"ClusterIdentifier":"kpi_dataplatform_redshift_cluster"}}
    },
    "Metadata": {
     "aws:cdk:path": "REDSHIFT/resumeClusterAction"
