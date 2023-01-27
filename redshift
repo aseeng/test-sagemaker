@@ -1,4 +1,310 @@
-subnet-01e1f796210c39837
-subnet-020486366a41c0f0b
-subnet-08b55949c5e71143e
 
+
+{
+ "Resources": {
+  "RedshiftAdminSecret3A34154B": {
+   "Type": "AWS::SecretsManager::Secret",
+   "Properties": {
+    "GenerateSecretString": {
+     "GenerateStringKey": "AdminPassword",
+     "SecretStringTemplate": "{\"username\": \"RedshiftAdminSecret\"}"
+    },
+    "Tags": [
+     {
+      "Key": "Application",
+      "Value": "my-application"
+     },
+     {
+      "Key": "Business Area",
+      "Value": "idk"
+     },
+     {
+      "Key": "Development Team",
+      "Value": "my-team"
+     },
+     {
+      "Key": "Environment",
+      "Value": "test"
+     },
+     {
+      "Key": "map-migrated",
+      "Value": "d-server-03riiozvypajnk"
+     },
+     {
+      "Key": "Status",
+      "Value": "nice"
+     },
+     {
+      "Key": "Unit",
+      "Value": "my-unit"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "REDSHIFT/RedshiftAdminSecret/Resource"
+   }
+  },
+  "redshiftClusterRole4D302097": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "redshift.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonS3ReadOnlyAccess"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Application",
+      "Value": "my-application"
+     },
+     {
+      "Key": "Business Area",
+      "Value": "idk"
+     },
+     {
+      "Key": "Development Team",
+      "Value": "my-team"
+     },
+     {
+      "Key": "Environment",
+      "Value": "test"
+     },
+     {
+      "Key": "map-migrated",
+      "Value": "d-server-03riiozvypajnk"
+     },
+     {
+      "Key": "Status",
+      "Value": "nice"
+     },
+     {
+      "Key": "Unit",
+      "Value": "my-unit"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "REDSHIFT/redshiftClusterRole/Resource"
+   }
+  },
+  "redshiftDemoClusterSubnetGroup": {
+   "Type": "AWS::Redshift::ClusterSubnetGroup",
+   "Properties": {
+    "Description": "Redshift Demo Cluster Subnet Group",
+    "SubnetIds": [
+     "subnet-01e1f796210c39837",
+     "subnet-020486366a41c0f0b",
+     "subnet-08b55949c5e71143e"
+    ],
+    "Tags": [
+     {
+      "Key": "Application",
+      "Value": "my-application"
+     },
+     {
+      "Key": "Business Area",
+      "Value": "idk"
+     },
+     {
+      "Key": "Development Team",
+      "Value": "my-team"
+     },
+     {
+      "Key": "Environment",
+      "Value": "test"
+     },
+     {
+      "Key": "map-migrated",
+      "Value": "d-server-03riiozvypajnk"
+     },
+     {
+      "Key": "Status",
+      "Value": "nice"
+     },
+     {
+      "Key": "Unit",
+      "Value": "my-unit"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "REDSHIFT/redshiftDemoClusterSubnetGroup"
+   }
+  },
+  "redshiftDemoCluster": {
+   "Type": "AWS::Redshift::Cluster",
+   "Properties": {
+    "ClusterType": "single-node",
+    "DBName": "comments_cluster",
+    "MasterUsername": "dwh_user",
+    "MasterUserPassword": {
+     "Fn::Join": [
+      "",
+      [
+       "{{resolve:secretsmanager:",
+       {
+        "Ref": "RedshiftAdminSecret3A34154B"
+       },
+       ":SecretString:AdminPassword::}}"
+      ]
+     ]
+    },
+    "NodeType": "dc2.large",
+    "ClusterIdentifier": "cluster_ID_1",
+    "ClusterSubnetGroupName": {
+     "Ref": "redshiftDemoClusterSubnetGroup"
+    },
+    "IamRoles": [
+     {
+      "Fn::GetAtt": [
+       "redshiftClusterRole4D302097",
+       "Arn"
+      ]
+     }
+    ],
+    "NumberOfNodes": 1,
+    "Tags": [
+     {
+      "Key": "Application",
+      "Value": "my-application"
+     },
+     {
+      "Key": "Business Area",
+      "Value": "idk"
+     },
+     {
+      "Key": "Development Team",
+      "Value": "my-team"
+     },
+     {
+      "Key": "Environment",
+      "Value": "test"
+     },
+     {
+      "Key": "map-migrated",
+      "Value": "d-server-03riiozvypajnk"
+     },
+     {
+      "Key": "Status",
+      "Value": "nice"
+     },
+     {
+      "Key": "Unit",
+      "Value": "my-unit"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "REDSHIFT/redshiftDemoCluster"
+   }
+  },
+  "pauseClusterAction": {
+   "Type": "AWS::Redshift::ScheduledAction",
+   "Properties": {
+    "ScheduledActionName": "pauseClusterAction",
+    "Enable": true,
+    "IamRole": {
+     "Fn::GetAtt": [
+      "redshiftClusterRole4D302097",
+      "Arn"
+     ]
+    },
+    "Schedule": "cron(0 0 19 ? * * *)",
+    "TargetAction": {}
+   },
+   "Metadata": {
+    "aws:cdk:path": "REDSHIFT/pauseClusterAction"
+   }
+  },
+  "resumeClusterAction": {
+   "Type": "AWS::Redshift::ScheduledAction",
+   "Properties": {
+    "ScheduledActionName": "resumeClusterAction",
+    "Enable": true,
+    "IamRole": {
+     "Fn::GetAtt": [
+      "redshiftClusterRole4D302097",
+      "Arn"
+     ]
+    },
+    "Schedule": "cron(0 0 8 ? * * *)",
+    "TargetAction": {}
+   },
+   "Metadata": {
+    "aws:cdk:path": "REDSHIFT/resumeClusterAction"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/0XMTQrCMBAF4LO4T0erKG6lC5dKewBJ06mNTZOSzCAScnf7I7h6b76Bt4fjCfKNfIdMNX1mdA2xIql6MdEjBlQeKQzSyif66bXcomjt2pLQcoBYOoMzzpmExyZ0uiWIExWGA6GvuLZIV+94FH9dhlSHDRtsLoq0synNeGMamUSJwbFX6/avJ3H/UOfs9gBnyHebV9A682xJDwjlml8dOzO31gAAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "REDSHIFT/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "RedshiftAdminSecretOutput": {
+   "Value": {
+    "Ref": "RedshiftAdminSecret3A34154B"
+   }
+  }
+ },
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
