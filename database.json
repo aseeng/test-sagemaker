@@ -1,51 +1,42 @@
 {
  "Resources": {
-  "MyCfnDatabass3kpidataplatformdevlanding": {
+  "MyCfnDatabascustomerstg": {
    "Type": "AWS::Glue::Database",
    "Properties": {
     "CatalogId": "768214639496",
     "DatabaseInput": {
-     "LocationUri": "s3://s3-kpi-dataplatform-dev-landing/"
+     "LocationUri": "s3://s3://s3-kpi-dataplatform-dev-staging/customer//",
+     "Name": "customer_stg"
     }
    },
    "Metadata": {
-    "aws:cdk:path": "DATABASE/MyCfnDatabass3-kpi-dataplatform-dev-landing"
+    "aws:cdk:path": "DATABASE/MyCfnDatabascustomer_stg"
    }
   },
-  "MyCfnDatabass3kpidataplatformdevstaging": {
+  "MyCfnDatabascustomer": {
    "Type": "AWS::Glue::Database",
    "Properties": {
     "CatalogId": "768214639496",
     "DatabaseInput": {
-     "LocationUri": "s3://s3-kpi-dataplatform-dev-staging/"
+     "LocationUri": "s3://s3://s3-kpi-dataplatform-dev-presentation/customer//",
+     "Name": "customer"
     }
    },
    "Metadata": {
-    "aws:cdk:path": "DATABASE/MyCfnDatabass3-kpi-dataplatform-dev-staging"
+    "aws:cdk:path": "DATABASE/MyCfnDatabascustomer"
    }
   },
-  "MyCfnDatabass3kpidataplatformdevpresentation": {
+  "MyCfnDatabascustomerdsc": {
    "Type": "AWS::Glue::Database",
    "Properties": {
     "CatalogId": "768214639496",
     "DatabaseInput": {
-     "LocationUri": "s3://s3-kpi-dataplatform-dev-presentation/"
+     "LocationUri": "s3://s3://s3-kpi-dataplatform-dev-presentation/discard/customer//",
+     "Name": "customer_dsc"
     }
    },
    "Metadata": {
-    "aws:cdk:path": "DATABASE/MyCfnDatabass3-kpi-dataplatform-dev-presentation"
-   }
-  },
-  "MyCfnDatabass3kpidataplatformdevlog": {
-   "Type": "AWS::Glue::Database",
-   "Properties": {
-    "CatalogId": "768214639496",
-    "DatabaseInput": {
-     "LocationUri": "s3://s3-kpi-dataplatform-dev-log/"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "DATABASE/MyCfnDatabass3-kpi-dataplatform-dev-log"
+    "aws:cdk:path": "DATABASE/MyCfnDatabascustomer_dsc"
    }
   },
   "CDKMetadata": {
