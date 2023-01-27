@@ -1,0 +1,95 @@
+{
+ "Resources": {
+  "MyCfnDatabass3kpidataplatformdevlanding": {
+   "Type": "AWS::Glue::Database",
+   "Properties": {
+    "CatalogId": "768214639496",
+    "DatabaseInput": {
+     "LocationUri": "s3://s3-kpi-dataplatform-dev-landing/"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "DATABASE/MyCfnDatabass3-kpi-dataplatform-dev-landing"
+   }
+  },
+  "MyCfnDatabass3kpidataplatformdevstaging": {
+   "Type": "AWS::Glue::Database",
+   "Properties": {
+    "CatalogId": "768214639496",
+    "DatabaseInput": {
+     "LocationUri": "s3://s3-kpi-dataplatform-dev-staging/"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "DATABASE/MyCfnDatabass3-kpi-dataplatform-dev-staging"
+   }
+  },
+  "MyCfnDatabass3kpidataplatformdevpresentation": {
+   "Type": "AWS::Glue::Database",
+   "Properties": {
+    "CatalogId": "768214639496",
+    "DatabaseInput": {
+     "LocationUri": "s3://s3-kpi-dataplatform-dev-presentation/"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "DATABASE/MyCfnDatabass3-kpi-dataplatform-dev-presentation"
+   }
+  },
+  "MyCfnDatabass3kpidataplatformdevlog": {
+   "Type": "AWS::Glue::Database",
+   "Properties": {
+    "CatalogId": "768214639496",
+    "DatabaseInput": {
+     "LocationUri": "s3://s3-kpi-dataplatform-dev-log/"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "DATABASE/MyCfnDatabass3-kpi-dataplatform-dev-log"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zPSMzXTM1RMLC/WTU7J1s3JTNKrDi5JTM7WAQrFp+eUpuo5p+W5JJYkJiUWp+oA2UGpxfmlRcmptToBlSUZ+Xn6xnoWeoYGilnFmZm6RaV5JZm5qXpBEBoAtlbjVF4AAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "DATABASE/CDKMetadata/Default"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
